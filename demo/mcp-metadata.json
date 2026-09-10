@@ -1,0 +1,26 @@
+{
+  "protocolVersion": "2025-03-26",
+  "transport": { "kind": "streamableHttp", "path": "/mcp" },
+  "capabilities": { "tools": { "listChanged": true } },
+  "tools": [
+    {
+      "name": "query_orders",
+      "description": "Returns recent orders for a customer from the Orders data product. Consumers of this data product are built against a specific data-contract version; the Data Contract Version Gate policy reads the declared contract version from a request header and blocks calls built against an unsupported (too-old) contract version, while allowing deprecated versions through with a deprecation warning until their sunset date.",
+      "inputSchema": {
+        "type": "object",
+        "required": ["customerId"],
+        "properties": {
+          "customerId": { "type": "string", "description": "The unique identifier of the customer whose recent orders should be returned from the data product." }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "required": ["orderCount"],
+        "properties": {
+          "orderCount": { "type": "number", "description": "The number of recent orders returned for the customer from the data product." },
+          "latestOrderId": { "type": "string", "description": "The identifier of the customer's most recent order in the data product." }
+        }
+      }
+    }
+  ]
+}

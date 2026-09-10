@@ -1,0 +1,69 @@
+---
+apiVersion: gateway.mulesoft.com/v1alpha1
+kind: Extension
+metadata:
+  labels:
+    title: Data Contract Version Gate
+    category: Transformation
+    description: >-
+      Reads a data-contract id and version from a request header and gates it
+      against blocked/deprecated version ranges; rejects unsupported versions
+      with an upgrade hint and flags deprecated ones with Deprecation headers.
+    metadata/interfaceScope: api
+    metadata/capabilities/assetTypes: mcp
+spec:
+  extends:
+    - name: extension-definition
+      namespace: default
+  properties:
+    contractHeader:
+      type: string
+      description: Request header carrying the data-contract id.
+      default: "x-data-contract"
+    versionHeader:
+      type: string
+      description: Request header carrying the declared data-contract semver (MAJOR.MINOR.PATCH).
+      default: "x-data-contract-version"
+    blockedBelow:
+      type: string
+      description: >-
+        Global fallback — versions strictly below this semver are blocked
+        (HTTP 426). Empty disables the global block threshold.
+      default: ""
+    deprecatedBelow:
+      type: string
+      description: >-
+        Global fallback — versions below this semver (but not blocked) are
+        allowed with Deprecation headers. Empty disables the global threshold.
+      default: ""
+    contracts:
+      type: array
+      description: Per-contract overrides of the block/deprecate thresholds.
+      default: []
+      items:
+        type: object
+        properties:
+          contract:
+            type: string
+            description: The data-contract id this entry governs (matches the contract header).
+          blockedBelow:
+            type: string
+            description: Versions strictly below this semver are blocked for this contract.
+          deprecatedBelow:
+            type: string
+            description: Versions below this semver are allowed but flagged deprecated.
+          sunset:
+            type: string
+            description: Optional RFC 8594 Sunset date (HTTP-date) emitted for deprecated versions.
+        required:
+          - contract
+    failMode:
+      type: string
+      description: >-
+        Behavior when the version is missing/unparseable for a governed
+        contract. 'closed' blocks; 'open' allows and logs.
+      enum:
+        - closed
+        - open
+      default: closed
+  required: []

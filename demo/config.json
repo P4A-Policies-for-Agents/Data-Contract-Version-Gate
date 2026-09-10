@@ -1,0 +1,13 @@
+{
+  "contractHeader": "x-data-contract",
+  "versionHeader": "x-data-contract-version",
+  "contracts": [
+    {
+      "contract": "orders",
+      "blockedBelow": "2.0.0",
+      "deprecatedBelow": "3.0.0",
+      "sunset": "Wed, 01 Jan 2027 00:00:00 GMT"
+    }
+  ],
+  "failMode": "closed"
+}
