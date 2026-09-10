@@ -9,8 +9,8 @@ metadata:
       Reads a data-contract id and version from a request header and gates it
       against blocked/deprecated version ranges; rejects unsupported versions
       with an upgrade hint and flags deprecated ones with Deprecation headers.
-    metadata/interfaceScope: api
-    metadata/capabilities/assetTypes: mcp
+    metadata/interfaceScope: api,resource
+    metadata/capabilities/assetTypes: mcp,rest,http
 spec:
   extends:
     - name: extension-definition
@@ -57,6 +57,19 @@ spec:
             description: Optional RFC 8594 Sunset date (HTTP-date) emitted for deprecated versions.
         required:
           - contract
+    applyTo:
+      type: string
+      description: >-
+        Which traffic to gate. 'auto' inspects the body: MCP JSON-RPC gates only
+        tools/call (handshake passes), anything else is treated as a REST/HTTP
+        request gated on the headers. 'mcp' gates only MCP tools/call. 'all'
+        gates every request on the headers without reading the body (best for
+        REST/HTTP APIs).
+      enum:
+        - auto
+        - mcp
+        - all
+      default: auto
     failMode:
       type: string
       description: >-

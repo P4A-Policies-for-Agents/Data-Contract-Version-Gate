@@ -12,6 +12,8 @@ pub struct Contracts0Config {
 }
 #[derive(Deserialize, Clone, Debug)]
 pub struct Config {
+    #[serde(alias = "applyTo")]
+    pub apply_to: Option<String>,
     #[serde(alias = "blockedBelow")]
     pub blocked_below: Option<String>,
     #[serde(alias = "contractHeader")]

@@ -28,6 +28,7 @@ certificate.yaml
 secrets.json
 **/config.local.json
 demo/env.local.sh
+demo/**/env.local.sh
 
 # --- OS / editor noise ---
 .DS_Store

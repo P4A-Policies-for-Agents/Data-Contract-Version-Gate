@@ -1,0 +1,13 @@
+{
+  "openapi": "3.0.3",
+  "info": { "title": "Orders Data Product API", "version": "1.0.0",
+    "description": "Mock Orders data-product REST API for the Data Contract Version Gate demo." },
+  "servers": [ { "url": "https://www.a2d-ai.com/api/platform/<restApiId>/api" } ],
+  "paths": {
+    "/orders-api/orders": {
+      "get": { "summary": "List recent orders",
+        "responses": { "200": { "description": "Success",
+          "content": { "application/json": { "schema": { "type": "object" } } } } } }
+    }
+  }
+}
